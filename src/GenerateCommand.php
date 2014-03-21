@@ -66,12 +66,6 @@ class GenerateCommand extends AbstractTartCommand
                 'Do not delete, only show what would be deleted'
             )
             ->addOption(
-               'unlink',
-               'u',
-               InputOption::VALUE_NONE,
-               'Should delete existing files?'
-            )
-            ->addOption(
                'batch-modify',
                null,
                InputOption::VALUE_NONE,
