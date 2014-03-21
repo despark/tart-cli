@@ -1,0 +1,9 @@
+<ul class="breadcrumb">
+    <li class="active">
+        {{controllerTitle}} <?php echo $filter->render_active(); ?>
+    </li>
+    <li class="pull-right">
+        <?php echo $index->pagination()->pager(); ?>
+    </li>
+</ul>
+<?php echo $index->render(); ?>

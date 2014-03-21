@@ -1,0 +1,16 @@
+<ul class="breadcrumb">
+    <li>
+        <?php echo Tart_Html::anchor(Tart::uri('{{controller}}'), '{{controllerTitle}}'); ?>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        Create New {{model}}
+    </li>
+</ul>
+<?php echo Form::open(Tart::uri($item{{extraController}}), array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data')) ?>
+    <?php echo View::factory('{{viewsPath}}/form', array('item' => $item)) ?>
+    <div class="form-actions">
+        <?php echo Tart_Html::anchor(Tart::uri('{{controller}}'), 'Cancel', array('class' => 'btn btn-link')); ?>
+        <button type="submit" class="btn btn-primary">Create {{model}}</button>
+    </div>
+<?php echo Form::close() ?>

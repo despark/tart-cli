@@ -1,0 +1,22 @@
+<ul class="breadcrumb">
+    <li>
+        <?php echo Tart_Html::anchor(Tart::uri('{{controller}}'), '{{controllerTitle}}'); ?>
+        <span class="divider">/</span>
+    </li>
+    <li class="active">
+        Batch Delete
+    </li>
+</ul>
+<?php echo Form::open(Tart::uri('{{controller}}', 'batch'), array(
+    'class' => 'form-horizontal',
+    'enctype' => 'multipart/form-data'
+)) ?>
+    <?php echo \$table->render() ?>
+    <div class="form-actions">
+        <?php echo Tart_Html::anchor(Tart::uri('{{controller}}'), 'Cancel', array(
+            'class' => 'btn btn-link'
+        )); ?>
+
+        <button type="submit" class="btn btn-primary" name="action" value="delete">Delete Selected</button>
+    </div>
+<?php echo Form::close() ?>

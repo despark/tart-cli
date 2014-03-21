@@ -1,0 +1,67 @@
+<?php defined('SYSPATH') OR die('No direct script access.');
+
+/**
+ * Tart Controller: {{controllerTitle}}
+ *
+ * @package {{moduleName}}
+ * @author {{author}}
+ * @copyright 2014 Despark Ltd.
+ */
+class {{controllerClass}} extends Controller_Tart_Layout {
+
+    public function action_index()
+    {
+        $collection = Jam::all('{{model}}');
+
+        $filter = Tart::filter($this->request->query())
+{{controllerOption}}            ->entries(array(
+                'q' => Tart::entry('search'),
+            ))
+            ->apply($collection);
+
+        $index = Tart::index($collection, $this->request->query('offset'))
+{{controllerOption}}{{batchIndex}}            ->columns(array(
+                '{{nameKey}}' => Tart::column(),
+                'actions' => Tart::column('actions'),
+            ));
+
+        $this->template->set(array(
+            'content' => View::factory('{{viewsPath}}/index', array('index' => $index, 'filter' => $filter)),
+            'sidebar' => View::factory('{{viewsPath}}/sidebar', array('filter' => $filter)),
+        ));
+    }
+
+    public function action_edit()
+    {
+        $item = Jam::find_insist('{{model}}', $this->request->param('id'));
+
+        if ($this->request->method() === Request::POST AND $item->set($this->post())->check()) {
+            $this->notify('success', '{{model}} Updated');
+            $item->save();
+        }
+        $this->template->content = View::factory('{{viewsPath}}/edit', array('item' => $item));
+    }
+
+    public function action_new()
+    {
+        $item = Jam::build('{{model}}');
+
+        if ($this->request->method() === Request::POST AND $item->set($this->post())->check()) {
+            $item->save();
+            $this->notify('success', '{{model}} Created');
+            $this->redirect(Tart::uri($item{{extraController}}));
+        }
+
+        $this->template->content = View::factory('{{viewsPath}}/new', array(
+            'item' => $item
+        ));
+    }
+
+    public function action_delete()
+    {
+        $item = Jam::find_insist('{{model}}', $this->request->param('id'));
+        $item->delete();
+        $this->notify('success', "{{model}} '{$item->name()}' deleted");
+        $this->redirect(Tart::uri('{{controller}}'));
+    }
+{{batchDelete}}{{batchModify}}}

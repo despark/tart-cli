@@ -1,0 +1,6 @@
+<ul class="nav nav-tabs nav-stacked">
+    <li>
+        <?php echo Tart_Html::anchor(Tart::uri(Jam::build('{{model}}'){{extraController}}), '<i class="icon-plus"></i> Add {{model}}'); ?>
+    </li>
+</ul>
+<?php echo $filter->render() ?>

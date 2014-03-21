@@ -1,0 +1,20 @@
+    public function batch_delete($ids)
+    {
+        if ($this->request->method() === Request::POST) {
+            $result = array();
+            foreach (Jam::all('{{model}}')->where_key($ids) as ${{model}}) {
+                $result[] = ${{model}}->delete();
+            }
+            $this->notify('success', count($result).' {{pluralName}} deleted');
+            $this->redirect(Tart::uri('{{controller}}'));
+        } else {
+            $table = Tart::table(Jam::all('{{model}}')->where_key($ids))
+                ->selected($ids)
+                ->columns('{{nameKey}}', Tart::column());
+
+            $this->template->content = View::factory('{{viewsPath}}/batch_delete', array(
+                'table' => $table
+            ));
+        }
+    }
+

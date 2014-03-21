@@ -1,0 +1,27 @@
+    public function batch_modify($ids)
+    {
+        $params = array('{{nameKey}}');
+
+        if ($this->request->method() === Request::POST) {
+            $modified = Tart_Request::modified_params($this->request->post(), $params);
+
+            foreach (Jam::all('{{model}}')->where_key($ids) as $item) {
+                $item->set($modified)->save();
+            }
+
+            $this->notify('success', count($ids).' ${{pluralName}} modified: '.Tart_Request::to_modifications($modified));
+            $this->redirect(Tart::uri('${controller}'));
+        } else {
+            $table = Tart::table(Jam::all('{{model}}')->where_key($ids))
+                ->selected($ids)
+                ->columns('{{nameKey}}', Tart::column());
+
+            $item = Jam::build('{{model}}', Jam_Form::common_params($table->collection(), $params));
+
+            $this->template->content = View::factory('{{viewsPath}}/batch_modify', array(
+                'table' => $table,
+                'form' => Jam::form($item, 'tart_general')->validation(FALSE)
+            ));
+        }
+    }
+

@@ -1,0 +1,16 @@
+{
+    "name": "despark/tart-cli",
+    "license": "BSD-3-Clause",
+    "description": "Symfony/Console CLI for Jam Tart",
+    "require": {
+        "doctrine/inflector": "~1.0.0"
+    },
+    "suggest": {
+        "openbuildings/jam-tart": "Jam Admin Builder",
+    },
+    "autoload": {
+        "psr-4": {
+            "Despark\\Command\\Tart\\": "src"
+        }
+    }
+}

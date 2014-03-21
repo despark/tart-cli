@@ -1,0 +1,5 @@
+<?php $form = Jam::form($item, 'tart_general') ?>
+<fieldset>
+    <legend>Information</legend>
+    <?php echo $form->row('input', '{{nameKey}}') ?>
+</fieldset>
