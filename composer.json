@@ -6,7 +6,7 @@
         "doctrine/inflector": "~1.0.0"
     },
     "suggest": {
-        "openbuildings/jam-tart": "Jam Admin Builder",
+        "openbuildings/jam-tart": "Jam Admin Builder"
     },
     "autoload": {
         "psr-4": {
