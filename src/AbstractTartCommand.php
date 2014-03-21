@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\Tart;
+namespace Despark\Command\Tart;
 
 use Symfony\Component\Console\Command\Command;
 
