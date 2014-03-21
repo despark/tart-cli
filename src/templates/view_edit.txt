@@ -20,7 +20,7 @@
         )); ?>
         <button type="submit" class="btn btn-primary">Save changes</button>
 
-        <?php echo Tart_Html::anchor(Tart::uri($item, {{extraController_delete}}), 'Delete {{model}}', array(
+        <?php echo Tart_Html::anchor(Tart::uri($item, {{extraControllerDelete}}), 'Delete {{model}}', array(
             'class' => 'btn btn-danger pull-right',
             'data-confirm' => 'Are you sure you want to delete this {{model}}?'
         )); ?>
