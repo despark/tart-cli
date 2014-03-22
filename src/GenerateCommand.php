@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use InvalidArgumentException;
 
 /**
@@ -17,7 +18,7 @@ use InvalidArgumentException;
  */
 class GenerateCommand extends AbstractTartCommand
 {
-    const AUTHOR_DEFAULT = 'Ivan Kerin';
+    const DEFAULT_AUTHOR = 'Ivan Kerin';
 
     // Templates
 
@@ -44,7 +45,7 @@ class GenerateCommand extends AbstractTartCommand
                'a',
                InputOption::VALUE_REQUIRED,
                'Set the @author annotations',
-               self::AUTHOR_DEFAULT
+               $this->getDefaultAuthor()
             )
             ->addOption(
                'module',
@@ -77,6 +78,21 @@ class GenerateCommand extends AbstractTartCommand
                InputOption::VALUE_NONE,
                'Include batch delete code?'
             );
+    }
+
+    private function getDefaultAuthor()
+    {
+        $gitAuthorName = trim(shell_exec('git config user.name'), "\n ");
+
+        if ($gitAuthorName) {
+            return $gitAuthorName;
+        }
+
+        if (isset($_SERVER['USER'])) {
+            return $_SERVER['USER'];
+        }
+
+        return self::DEFAULT_AUTHOR;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
