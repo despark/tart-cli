@@ -89,10 +89,14 @@ class GenerateCommand extends AbstractTartCommand
         $directoryResolver = new DirectoryResolver($input->getOption('module'));
 
         $data = $this->getInitialData($nameResolver, $directoryResolver);
+
+        $batchDelete = $input->getOption('batch-delete');
+        $batchModify = $input->getOption('batch-modify');
+
         $data = $this->preProcessData(
             $data,
-            $input->getOption('batch-delete'),
-            $input->getOption('batch-modify')
+            $batchDelete,
+            $batchModify
         );
 
         $data['{{author}}'] = $input->getOption('author');
@@ -116,7 +120,12 @@ class GenerateCommand extends AbstractTartCommand
 
         $dryRun = $input->getOption('dry-run');
 
-        $files = $this->getFiles($nameResolver, $directoryResolver);
+        $files = $this->getFiles(
+            $nameResolver,
+            $directoryResolver,
+            $batchDelete,
+            $batchModify
+        );
 
         $viewsDir = $directoryResolver->getViewsDirectory()
             .$nameResolver->getControllerName();
@@ -219,11 +228,22 @@ class GenerateCommand extends AbstractTartCommand
 
     public function getFiles(
         NameResolver $nameResolver,
-        DirectoryResolver $directoryResolver
+        DirectoryResolver $directoryResolver,
+        $batchDelete = false,
+        $batchModify = false
     ) {
         $files = array();
 
         foreach (static::$viewFiles as $templateName => $viewFile) {
+
+            if ($templateName === self::TEMPLATE_VIEW_BATCH_DELETE and !$batchDelete) {
+                continue;
+            }
+
+            if ($templateName === self::TEMPLATE_VIEW_BATCH_MODIFY and !$batchModify) {
+                continue;
+            }
+
             $filePath = $directoryResolver->getViewsDirectory()
                 .$nameResolver->getControllerName()
                 .DIRECTORY_SEPARATOR
