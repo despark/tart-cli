@@ -22,7 +22,9 @@ class GenerateCommand extends AbstractTartCommand
 
     // Templates
 
-    const TEMPLATES_DIR = 'templates';
+    const DEFAULT_TEMPLATES_DIR = 'templates';
+
+    public $templatesDir;
 
     protected function configure()
     {
@@ -77,6 +79,13 @@ class GenerateCommand extends AbstractTartCommand
                null,
                InputOption::VALUE_NONE,
                'Include batch delete code?'
+            )
+            ->addOption(
+               'templates-dir',
+               't',
+               InputOption::VALUE_REQUIRED,
+               'Which dir to use for templates?',
+               __DIR__.DIRECTORY_SEPARATOR.self::DEFAULT_TEMPLATES_DIR
             );
     }
 
@@ -108,6 +117,7 @@ class GenerateCommand extends AbstractTartCommand
 
         $batchDelete = $input->getOption('batch-delete');
         $batchModify = $input->getOption('batch-modify');
+        $this->templatesDir = $input->getOption('templates-dir');
 
         $data = $this->preProcessData(
             $data,
@@ -224,9 +234,7 @@ class GenerateCommand extends AbstractTartCommand
 
     private function parse($templateFile, $data)
     {
-        $templateFilePath = __DIR__
-            .DIRECTORY_SEPARATOR
-            .static::TEMPLATES_DIR
+        $templateFilePath = $this->templatesDir
             .DIRECTORY_SEPARATOR
             .$templateFile;
 
