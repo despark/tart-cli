@@ -11,7 +11,7 @@
     'class' => 'form-horizontal',
     'enctype' => 'multipart/form-data'
 )) ?>
-    <?php echo \$table->render() ?>
+    <?php echo $table->render() ?>
     <div class="form-actions">
         <?php echo Tart_Html::anchor(Tart::uri('{{controller}}'), 'Cancel', array(
             'class' => 'btn btn-link'
