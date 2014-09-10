@@ -92,8 +92,14 @@ class GenerateCommand extends AbstractTartCommand
     private function getDefaultAuthor()
     {
         $gitAuthorName = trim(shell_exec('git config user.name'), "\n ");
+        $gitAuthorEmail = trim(shell_exec('git config user.email'), "\n ");
 
         if ($gitAuthorName) {
+
+            if ($gitAuthorEmail) {
+                $gitAuthorName .= ' <'.$gitAuthorEmail.'>';
+            }
+
             return $gitAuthorName;
         }
 
